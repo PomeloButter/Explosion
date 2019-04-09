@@ -1,0 +1,87 @@
+<!doctype html> 
+<html> 
+<head> 
+    <meta charset="utf-8"> 
+    <title></title> 
+    <style type="text/css">
+*{margin:0;padding: 0;list-style: none;}
+#div1{
+	width: 640px;height: 400px;position: absolute;left: 50%;margin-left:-320px;top: 50%;margin-top: -200px;border: 1px solid black;
+	 
+}    	
+#div1>div{
+	position: absolute;
+	width: 100%;height: 100%;
+	left: 0;top: 0;
+	transform-style: preserve-3d;
+}
+#div1>div>div{
+	position: absolute;
+	transform:perspective(800px);
+}
+
+
+    </style>
+</head>
+<body>
+<div id='div1'>
+</div>
+<script type="text/javascript">
+var arr = ['img/1.jpg','img/2.jpg','img/3.jpg','img/4.jpg']
+var z = 9999999;
+var index = 0;
+boom(10,10);
+function boom(l,t){
+	//console.log(1)
+	var oParentNode = document.createElement('div');
+	oParentNode.style.zIndex = z;
+	z--;
+	div1.appendChild(oParentNode);
+	var x = l;
+	var y = t;
+	for(var i = 0;i < y;i++){
+		for(var j = 0;j < x;j++){
+
+			var oDiv = document.createElement('div');
+			//1 - > width * -j => 0
+			//2 - > width * -j => -80
+			//3 - > width * -j => -160
+			oDiv.style.background = 'url('+arr[index]+')';
+			oDiv.style.width = div1.clientWidth / x + 'px';
+			oDiv.style.height = div1.clientHeight / y + 'px';
+			oDiv.style.left = (div1.clientWidth / x) * j +'px';
+			oDiv.style.top = (div1.clientHeight / y) * i + 'px';
+			oDiv.style.backgroundPositionX = (div1.clientWidth / x) * -j +'px';
+			oDiv.style.backgroundPositionY = (div1.clientHeight / y) * -i + 'px'; 
+			oDiv.style.transition = (Math.random()*1+0.5)+'s';
+			oParentNode.appendChild(oDiv);
+		}
+	};
+
+	var allDiv = oParentNode.children;
+	setTimeout(()=>{
+		index++;
+		index == arr.length && (index = 0);
+		boom(l,t);
+		for(var i = 0;i < allDiv.length;i++){
+			allDiv[i].style.transform='perspective(800px) rotateX('+(Math.random()*360-180)+'deg) rotateY('+(Math.random()*360-180)+'deg) translateX('+(Math.random()*400-200)+'px) translateY('+(Math.random()*400-200)+'px) translateZ('+(Math.random()*200+100)+'px)';
+			allDiv[i].style.opacity= 0;
+		};
+	},2000);
+
+	//boom(l,t);
+
+	setTimeout(function(){
+		oParentNode.remove(); //= ''
+		//boom(10,10);
+	},3500);
+}
+
+
+
+
+
+
+</script>
+</body>
+</html>
